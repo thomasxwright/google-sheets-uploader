@@ -56,5 +56,5 @@ console.log(process.env.PRIVATE_KEY)
 })
 
 
-
-app.listen(1337, (req, res) => { console.log('running on 1337') })
+const PORT = process.env.PORT || 1337
+app.listen(PORT, (req, res) => { console.log('running on ${PORT}') })
