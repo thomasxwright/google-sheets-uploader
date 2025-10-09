@@ -9,7 +9,7 @@ console.log(process.env.PRIVATE_KEY)
     const auth = new google.auth.GoogleAuth({
         // keyFile: "credentials.json",
         credentials: {
-            client_email: process.env.client_email,
+            client_email: process.env.CLIENT_EMAIL,
             private_key: process.env.PRIVATE_KEY
         },
         scopes: "https://www.googleapis.com/auth/spreadsheets"
