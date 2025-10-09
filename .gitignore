@@ -1,0 +1,6 @@
+.env
+node_modules/
+data.txt
+index.html
+practice.js
+credentials.json
