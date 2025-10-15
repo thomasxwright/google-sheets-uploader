@@ -1,60 +1,22 @@
-const express = require('express')
-const { google } = require('googleapis')
-require('dotenv').config({ path: './config/.env' })
+import express from 'express'
+console.log('index.js')
+// require('dotenv').config({ path: './config/.env' })
+import dotenv from 'dotenv'
+dotenv.config({path: './config/.env'})
+import * as sheetsController from './controllers/sheets.js'
 
 const app = express()
 
-app.get("/", async (req, res) => {
-console.log(process.env.PRIVATE_KEY)
-    const auth = new google.auth.GoogleAuth({
-        // keyFile: "credentials.json",
-        credentials: {
-            client_email: process.env.CLIENT_EMAIL,
-            private_key: process.env.PRIVATE_KEY
-        },
-        scopes: "https://www.googleapis.com/auth/spreadsheets"
-    })
+app.use(express.urlencoded({ extended: true, limit: '2mb' }))
+app.use(express.json({ limit: '2mb' }))
 
-    //create client instance for auth
-    const client = await auth.getClient()
+// app.put("/recordPerson", sheetsController.recordPerson)
+app.get("/getMetadata", sheetsController.getMetadata)
 
+app.get("/editSpreadsheet", sheetsController.editSpreadsheet)
 
-    //instance of google sheets api
-    const googleSheets = google.sheets({ version: "v4", auth: client })
-
-    const spreadsheetId = process.env.SPREADSHEET_ID
-
-    //get metadata about spreadsheet
-    const metadata = await googleSheets.spreadsheets.get({
-        auth, spreadsheetId
-    })
-
-    
-    //Write rows to spreadsheet
-    await googleSheets.spreadsheets.values.append({
-        auth,
-        spreadsheetId,
-        range: "Sheet1!A:B",
-        valueInputOption: "USER_ENTERED",
-        resource: {
-            values: [
-                [
-                    new Date().toLocaleTimeString(), "test"
-                ]
-            ]
-        }
-    })
-    
-    //Read rows from spreadsheet
-    const getRows = await googleSheets.spreadsheets.values.get({
-        auth,
-        spreadsheetId,
-        range: "Sheet1!A:A"
-    })
-    
-    res.send(getRows.data)
-})
+app.put("/", sheetsController.addPersonToSpreadsheet)
 
 
 const PORT = process.env.PORT || 1337
-app.listen(PORT, (req, res) => { console.log('running on ${PORT}') })
+app.listen(PORT, (req, res) => { console.log(`running on ${PORT}`) })
