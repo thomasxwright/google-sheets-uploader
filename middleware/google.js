@@ -46,7 +46,7 @@ export async function editSpreadsheet(range, valueInputOption, values) {
         range,
         valueInputOption,
         resource: {
-            values: [values]
+            values: values
         }
     })
 }
