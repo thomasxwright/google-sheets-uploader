@@ -70,5 +70,9 @@ export async function addPeopleToSpreadsheet(req, res) {
 
 function formatPersonForSpreadsheet(person) {
     return [person.zoneId, person.name, person.DOB, person.street, person.city, person.state, person.zipCode,
-    person.coordinates.latitude, person.coordinates.longitude, person.sex, person.smoker, person.searchId]
+    person.coordinates.latitude, person.coordinates.longitude, person.sex, person.smoker, person.searchId].map(entry => caseAdjust(entry))
+}
+
+function caseAdjust(str) {
+    return str.toString().split(' ').map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(' ')
 }
