@@ -54,10 +54,9 @@ export async function editSpreadsheet(req, res) {
 
 export async function addPeopleToSpreadsheet(req, res) {
     try {
-        console.log(req.body)
-        const people = req.body.people
+        // console.log(req.body)
+        const people = req.body
             .map(person => formatPersonForSpreadsheet(person))
-        console.log(people)
         //people is an array of people, each containing an array of traits
         await google.editSpreadsheet('people!B:M', 'USER_ENTERED', people)
         const range = 'people!B:M'
@@ -68,9 +67,35 @@ export async function addPeopleToSpreadsheet(req, res) {
     }
 }
 
+export async function addQueryToSpreadsheet(req, res) {
+    try {
+        const query = req.body
+        await google.editSpreadsheet('queries!A:E', 'USER_ENTERED', [query])
+        const range = 'queries!A:E'
+        const dataResult = await google.readSpreadsheet(range)
+        res.send(dataResult)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export async function addZoneToSpreadsheet(req, res) {
+    try {
+        const zone = req.body
+        await google.editSpreadsheet('zones!A:C', 'USER_ENTERED', [zone])
+        const range = 'zones!A:C'
+        const dataResult = await google.readSpreadsheet(range)
+        res.send(dataResult)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 function formatPersonForSpreadsheet(person) {
-    return [person.zoneId, person.name, person.DOB, person.street, person.city, person.state, person.zipCode,
+    person = [person.zoneId, person.name, person.DOB, person.street, person.city, person.state, person.zipCode,
     person.coordinates.latitude, person.coordinates.longitude, person.sex, person.smoker, person.searchId].map(entry => caseAdjust(entry))
+    person[5] = person[5].toUpperCase()
+    return person
 }
 
 function caseAdjust(str) {

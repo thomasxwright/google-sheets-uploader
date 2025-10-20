@@ -29,6 +29,10 @@ app.get("/", sheetsController.getAllPersonData)
 
 app.post("/people", sheetsController.addPeopleToSpreadsheet)
 
+app.post("/queries", sheetsController.addQueryToSpreadsheet)
+
+app.post("/zones", sheetsController.addZoneToSpreadsheet)
+
 
 const PORT = process.env.PORT || 1337
 app.listen(PORT, (req, res) => { console.log(`running on ${PORT}`) })
