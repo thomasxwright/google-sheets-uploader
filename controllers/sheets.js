@@ -70,8 +70,8 @@ export async function addPeopleToSpreadsheet(req, res) {
 export async function addQueryToSpreadsheet(req, res) {
     try {
         const query = req.body
-        await google.editSpreadsheet('queries!A:E', 'USER_ENTERED', [query])
-        const range = 'queries!A:E'
+        await google.editSpreadsheet('queries!A:H', 'USER_ENTERED', [query])
+        const range = 'queries!A:H'
         const dataResult = await google.readSpreadsheet(range)
         res.send(dataResult)
     } catch (err) {
@@ -92,9 +92,9 @@ export async function addZoneToSpreadsheet(req, res) {
 }
 
 function formatPersonForSpreadsheet(person) {
-    person = [person.zoneId, person.name, person.DOB, person.street, person.city, person.state, person.zipCode,
-    person.coordinates.latitude, person.coordinates.longitude, person.sex, person.smoker, person.searchId].map(entry => caseAdjust(entry))
-    person[5] = person[5].toUpperCase()
+    person = [person.zoneId, person.name, person.DOB, person.sex, person.city, person.zipCode, person.street, person.state,
+    person.coordinates.latitude, person.coordinates.longitude, person.smoker, person.searchId].map(entry => caseAdjust(entry))
+    person[7] = person[7].toUpperCase()
     return person
 }
 
