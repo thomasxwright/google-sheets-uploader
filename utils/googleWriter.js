@@ -116,8 +116,8 @@ function scheduleFlush() {
 
 async function tryAppendWithRetries(values, retries = MAX_RETRIES, baseDelay = 400) {
     try {
-        console.log(`🟢 Appending ${values.length} rows`);
-        const response = await google.editSpreadsheet('people!B:M', 'USER_ENTERED', values)
+        console.log(`🟢 Appending ${values.length} rows starting with ${values[0][1]} and ending with ${values[values.length-1][1]}`);
+        const response = await editSpreadsheet('people!B:M', 'USER_ENTERED', values)
         console.log("✅ Google Sheets append success");
         return response;
     } catch (err) {
