@@ -1,5 +1,10 @@
 import * as google from '../middleware/google.js'
 import { enqueuePerson } from '../utils/googleWriter.js'
+import { SheetWriter } from '../utils/sheetwriter.js'
+
+const peopleWriter = new SheetWriter('people!B:M')
+const queryWriter = new SheetWriter('queries!A:H')
+const zoneWriter = new SheetWriter('zones!A:D')
 
 export async function getAllPersonData(req, res) {
     try {
@@ -79,7 +84,7 @@ export async function addPeopleToSpreadsheet(req, res) {
         //people is an array of people, each containing an array of traits
         const people = req.body
             .map(person => formatPersonForSpreadsheet(person))
-        people.forEach(person => enqueuePerson(person))
+        people.forEach(person => peopleWriter.enqueue(person))
         // Optionally, you can wait for current queue to drain
         // await writeQueue;
 
@@ -90,7 +95,7 @@ export async function addPeopleToSpreadsheet(req, res) {
     }
 }
 // ---------------------------
-// Data tidyers
+// Data tidiers
 // ---------------------------
 function formatPersonForSpreadsheet(person) {
     person = [person.zoneId, person.name, person.DOB, person.sex, person.city, person.zipCode, person.street, person.state,
