@@ -45,7 +45,7 @@ export class SheetWriter {
     async tryAppendWithRetries(values, retries = this.maxRetries, baseDelay = 400) {
         try {
             console.log(`🟢 Appending ${values.length} rows starting with ${values[0][1]} and ending with ${values[values.length - 1][1]}`);
-            const response = await editSpreadsheet(range, 'USER_ENTERED', values)
+            const response = await editSpreadsheet(this.range, 'USER_ENTERED', values)
             console.log("✅ Google Sheets append success");
             return response;
         } catch (err) {
