@@ -79,7 +79,7 @@ export async function addPeopleToSpreadsheet(req, res) {
         //people is an array of people, each containing an array of traits
         const people = req.body
             .map(person => formatPersonForSpreadsheet(person))
-            .forEach(person => enqueuePerson(person))
+        people.forEach(person => enqueuePerson(person))
         // Optionally, you can wait for current queue to drain
         // await writeQueue;
 
