@@ -1,6 +1,6 @@
 import * as google from '../middleware/google.js'
 import { enqueuePerson } from '../utils/googleWriter.js'
-import { SheetWriter } from '../utils/sheetwriter.js'
+import { SheetWriter } from '../utils/SheetWriter.js'
 
 const peopleWriter = new SheetWriter('people!B:M')
 const queryWriter = new SheetWriter('queries!A:H')
