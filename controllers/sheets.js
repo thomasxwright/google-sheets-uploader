@@ -67,7 +67,8 @@ export async function addZoneToSpreadsheet(req, res) {
         const dateUpdated = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
         const formattedZoneData = [zoneId, 'yes', dateUpdated, queryPoints.map(pair => pair.join(',')).join(' ')]
         console.log(formattedZoneData)
-        await google.editSpreadsheet('zones!A:D', 'USER_ENTERED', [formattedZoneData])
+        const result = await google.editSpreadsheet('zones!A:D', 'USER_ENTERED', [formattedZoneData])
+        console.log('success! result:', result)
         // const range = 'zones!A:D'
         // const dataResult = await google.readSpreadsheet(range)
         // console.log(dataResult)
