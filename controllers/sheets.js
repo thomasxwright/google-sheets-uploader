@@ -37,10 +37,10 @@ export async function readSpreadsheeet(req, res) {
 }
 
 export async function editSpreadsheet(req, res) {
-        await google.editSpreadsheet('people!A:B', 'USER_ENTERED', [new Date().toLocaleTimeString(), 'test'])
-        const range = 'people!A:A'
-        const data = await google.readSpreadsheet(range)
-        res.send(data)
+    await google.editSpreadsheet('people!A:B', 'USER_ENTERED', [new Date().toLocaleTimeString(), 'test'])
+    const range = 'people!A:A'
+    const data = await google.readSpreadsheet(range)
+    res.send(data)
 }
 
 export async function addQueryToSpreadsheet(req, res) {
@@ -68,7 +68,7 @@ export async function addZoneToSpreadsheet(req, res) {
         const formattedZoneData = [zoneId, 'yes', dateUpdated, JSON.stringify(queryPoints)]
         console.log(formattedZoneData)
         const result = await google.editSpreadsheet('zones!A:D', 'USER_ENTERED', [formattedZoneData])
-        res.send({ status: 'accepted', count: people.length })
+        res.send({ status: 'accepted' })
         // const range = 'zones!A:D'
         // const dataResult = await google.readSpreadsheet(range)
         // console.log(dataResult)
