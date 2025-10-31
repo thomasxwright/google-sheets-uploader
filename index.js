@@ -1,7 +1,5 @@
 import express from 'express'
 import cors from 'cors'
-console.log('index.js')
-// require('dotenv').config({ path: './config/.env' })
 import dotenv from 'dotenv'
 dotenv.config({path: './config/.env'})
 import * as sheetsController from './controllers/sheets.js'
