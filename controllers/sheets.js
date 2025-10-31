@@ -65,7 +65,7 @@ export async function addZoneToSpreadsheet(req, res) {
         const zone = req.body
         const { zoneId, queryPoints } = zone
         const dateUpdated = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
-        const formattedZoneData = [zoneId, 'yes', dateUpdated, JSON.stringify(queryPoints)]
+        const formattedZoneData = [zoneId, 'yes', dateUpdated, queryPoints.join(' ').join(',')]
         console.log(formattedZoneData)
         await google.editSpreadsheet('zones!A:D', 'USER_ENTERED', [formattedZoneData])
         // const range = 'zones!A:D'
