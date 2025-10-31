@@ -2,9 +2,9 @@ import * as google from '../middleware/google.js'
 import { enqueuePerson } from '../utils/googleWriter.js'
 import { SheetWriter } from '../utils/SheetWriter.js'
 
-const peopleWriter = new SheetWriter({range: 'people!B:M'})
-const queryWriter = new SheetWriter({range: 'queries!A:H'})
-const zoneWriter = new SheetWriter({range: 'zones!A:D'})
+const peopleWriter = new SheetWriter({ range: 'people!B:M' })
+const queryWriter = new SheetWriter({ range: 'queries!A:H' })
+const zoneWriter = new SheetWriter({ range: 'zones!A:D' })
 
 export async function getAllPersonData(req, res) {
     try {
@@ -37,27 +37,25 @@ export async function readSpreadsheeet(req, res) {
 }
 
 export async function editSpreadsheet(req, res) {
-    try {
         await google.editSpreadsheet('people!A:B', 'USER_ENTERED', [new Date().toLocaleTimeString(), 'test'])
         const range = 'people!A:A'
         const data = await google.readSpreadsheet(range)
         res.send(data)
-    }
-    catch (err) {
-        console.log(err)
-    }
 }
 
 export async function addQueryToSpreadsheet(req, res) {
     try {
         const query = req.body
         query[1] = caseAdjust(query[1])
-        await google.editSpreadsheet('queries!A:H', 'USER_ENTERED', [query])
-        const range = 'queries!A:H'
-        const dataResult = await google.readSpreadsheet(range)
-        res.send(dataResult)
+        queryWriter.enqueue(query)
+        res.send({ status: 'accepted query' })
+
+        // const range = 'queries!A:H'
+        // const dataResult = await google.readSpreadsheet(range)
+        // res.send(dataResult)
     } catch (err) {
         console.log(err)
+        throw err
     }
 }
 
@@ -75,7 +73,8 @@ export async function addZoneToSpreadsheet(req, res) {
         // console.log(dataResult)
         // res.send(dataResult)
     } catch (err) {
-        console.log(err)
+        console.error('Failed to save zone', err)
+        res.status(500).send({ error: err.message })
     }
 }
 
