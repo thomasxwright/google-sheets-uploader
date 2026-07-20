@@ -3,7 +3,7 @@ import { enqueuePerson } from '../utils/googleWriter.js'
 import { SheetWriter } from '../utils/SheetWriter.js'
 
 const peopleWriter = new SheetWriter({ range: 'people!B:M' })
-const queryWriter = new SheetWriter({ range: 'queries!A:H' })
+const queryWriter = new SheetWriter({ range: 'queries!A:J' })
 const zoneWriter = new SheetWriter({ range: 'zones!A:D' })
 
 export async function getAllPersonData(req, res) {
